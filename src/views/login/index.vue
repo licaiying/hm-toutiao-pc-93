@@ -2,7 +2,7 @@
   <div class="container-login">
     <el-card class="my-card">
       <img src="../../assets/logo_index.png" alt />
-      <el-form :model="loginForm" :rules="loginRules" status-icon>
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
         <!-- 手机号 -->
         <el-form-item prop="mobile">
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
@@ -22,7 +22,7 @@
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item>
-          <el-button type="primary" style="width:100%">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="login()">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -66,6 +66,17 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    login() {
+      // 通过调用组件的函数 validate 进行整体校验  validate(function(valid){ // valid 为 true 校验成功 })
+      this.$refs.loginForm.validate(valid => {
+        // valid 值 true 校验成功
+        if (valid) {
+          //  调用接口，进行登录
+        }
+      });
+    }
   }
 };
 </script>
