@@ -74,6 +74,17 @@ export default {
         // valid 值 true 校验成功
         if (valid) {
           //  调用接口，进行登录
+          this.$http
+            .post(
+              " http://ttapi.research.itcast.cn/mp/v1_0/authorizations",
+              this.loginForm
+            )
+            .then(res => {
+              this.$router.push("/");
+            })
+            .catch(() => {
+              this.$message.error("手机号或验证码错误");
+            });
         }
       });
     }

@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-// 引入element-ui
+// 导入element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入路由
+// 导入路由
 import router from './router/index.js'
+
+// 导入axios
+import axios from 'axios'
+// 挂载 $http 对象就是axios
+Vue.prototype.$http = axios
 
 Vue.use(ElementUI)
 
