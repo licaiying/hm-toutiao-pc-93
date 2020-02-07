@@ -10,6 +10,9 @@ import Home from '@/views/home'
 // 导入Welcome
 import Welcome from '@/views/welcome'
 
+// 导入404
+import NotFound from '@/views/404'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -21,7 +24,9 @@ const router = new VueRouter({
             children: [
                 { path: '/', component: Welcome }
             ]
-        }
+        },
+        // 通配规则(以上所有的规则不符合的时候，走下面这个规则)
+        { path: '*', component: NotFound }
     ]
 });
 
