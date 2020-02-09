@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Home from '@/views/home'
+import Welcome from '@/views/welcome'
+import NotFound from '@/views/404'
 
 // 导入Login
 import Login from '@/views/login'
