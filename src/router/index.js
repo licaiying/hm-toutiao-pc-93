@@ -4,19 +4,8 @@ import VueRouter from 'vue-router'
 // 导入Login
 import Login from '@/views/login'
 
-<<<<<<< HEAD
 // 导入工具auth(操作token的相关函数)
 import auth from '@/utils/auth'
-=======
-// 导入Home
-import Home from '@/views/home'
-
-// 导入Welcome
-import Welcome from '@/views/welcome'
-
-// 导入404
-import NotFound from '@/views/404'
->>>>>>> home
 
 Vue.use(VueRouter)
 
