@@ -79,7 +79,7 @@ export default {
           //  调用接口，进行登录
           this.$http
             .post(
-              " http://ttapi.research.itcast.cn/mp/v1_0/authorizations",
+              "http://ttapi.research.itcast.cn/mp/v1_0/authorizations",
               this.loginForm
             )
             .then(res => {

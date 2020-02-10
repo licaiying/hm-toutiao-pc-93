@@ -8,8 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 导入路由
 import router from './router/index.js'
 
-// 导入axios
-import axios from 'axios'
+// 导入自己配置的axios
+import axios from '@/api'
+
 // 挂载 $http 对象就是axios
 Vue.prototype.$http = axios
 
