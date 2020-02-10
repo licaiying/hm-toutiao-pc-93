@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
+import Article from '@/views/article'
 
 // 导入Login
 import Login from '@/views/login'
@@ -19,7 +20,8 @@ const router = new VueRouter({
             path: '/',
             component: Home,
             children: [
-                { path: '/', component: Welcome }
+                { path: '/', component: Welcome },
+                { path: '/article', component: Article }
             ]
         },
         // 通配规则(以上所有的规则不符合的时候，走下面这个规则)
