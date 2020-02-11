@@ -46,6 +46,19 @@
     </el-card>
 
     <!-- 结果区域 -->
+    <el-card style="margin-top:20px">
+      <div slot="header">根据筛选条件共查询到 0 条结果：</div>
+      <!-- 表格区域 -->
+      <el-table :data="articles" style="width: 100%">
+        <el-table-column label="封面"></el-table-column>
+        <el-table-column label="标题"></el-table-column>
+        <el-table-column label="状态"></el-table-column>
+        <el-table-column label="发布时间"></el-table-column>
+        <el-table-column label="操作"></el-table-column>
+      </el-table>
+      <!-- 分页区域 -->
+      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+    </el-card>
   </div>
 </template>
 
@@ -83,7 +96,8 @@ export default {
       ],
       // 日期范围数据 [起始日期,结束日期]
       // 当选择完日期范围后，可以根据这个范围数据给 begin_pubdate和end_pubdate 赋值。
-      dateArr: []
+      dateArr: [],
+      articles: []
     };
   }
 };
