@@ -11,6 +11,10 @@ import router from './router/index.js'
 // 导入自己配置的axios
 import axios from '@/api'
 
+// 导入自己封装的插件  src/plugin.js
+import Plugin from '@/plugin'
+Vue.use(Plugin)
+
 // 挂载 $http 对象就是axios
 Vue.prototype.$http = axios
 

@@ -50,9 +50,9 @@
 </template>
 
 <script type="text/javascript">
-import MyBread from "@/components/my-bread";
+// import MyBread from "@/components/my-bread";
 export default {
-  components: { MyBread },
+  // components: { MyBread },
   name: "app-article",
   // created() {
   //   // 发请求进行测试
