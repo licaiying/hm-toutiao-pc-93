@@ -23,9 +23,9 @@
           <el-select v-model="filterData.channel_id" placeholder="请选择">
             <el-option
               v-for="item in channelOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
             ></el-option>
             <!-- label 选项文字,  value 选项的值, 当你选择某个选项后，该选项的值提供v-model -->
           </el-select>
@@ -90,15 +90,25 @@ export default {
         end_pubdate: null
       },
       // 频道下拉选项数据
-      channelOptions: [
-        { label: "国内", value: 1 },
-        { label: "国外", value: 2 }
-      ],
+      channelOptions: [],
       // 日期范围数据 [起始日期,结束日期]
       // 当选择完日期范围后，可以根据这个范围数据给 begin_pubdate和end_pubdate 赋值。
       dateArr: [],
       articles: []
     };
+  },
+  created() {
+    this.getChannelOptions();
+  },
+  methods: {
+    async getChannelOptions() {
+      // 发请求获取频道数据
+      const res = await this.$http.get("channels");
+      // res = {data:{message:'',data:{channels:[// 频道数组 ]}}}
+      // this.channelOptions = [{id,name}]  数据格式
+      // console.log(res);
+      this.channelOptions = res.data.data.channels;
+    }
   }
 };
 </script>
