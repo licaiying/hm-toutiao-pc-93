@@ -21,7 +21,16 @@
             <el-radio :label="4">已删除</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="频道："></el-form-item>
+        <el-form-item label="频道：">
+          <el-select v-model="filterData.channel_id" placeholder="请选择">
+            <el-option
+              v-for="item in channelOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="日期："></el-form-item>
         <el-form-item>
           <el-button type="primary">筛选</el-button>
@@ -53,8 +62,14 @@ export default {
       // 筛选数据是由多个表单元素组成，需要收集所有数据，应该使用对象来进行绑定
       filterData: {
         // 当字段的值null，axios请求不会提交，代表不传
-        status: null
-      }
+        status: null,
+        channel_id: null
+      },
+      // 频道下拉选项数据
+      channelOptions: [
+        { label: "国内", value: 1 },
+        { label: "国外", value: 2 }
+      ]
     };
   }
 };
