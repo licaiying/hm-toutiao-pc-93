@@ -4,10 +4,8 @@
     <el-card>
       <!-- 面包屑区域 -->
       <div slot="header">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb>
+        <!-- 使用自己封装的面包屑组件 -->
+        <my-bread>内容管理</my-bread>
       </div>
       <!-- 表单区域 -->
       <el-form label-width="80px" size="small">
@@ -52,7 +50,9 @@
 </template>
 
 <script type="text/javascript">
+import MyBread from "@/components/my-bread";
 export default {
+  components: { MyBread },
   name: "app-article",
   // created() {
   //   // 发请求进行测试
