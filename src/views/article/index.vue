@@ -47,7 +47,7 @@
 
     <!-- 结果区域 -->
     <el-card style="margin-top:20px">
-      <div slot="header">根据筛选条件共查询到 0 条结果：</div>
+      <div slot="header">根据筛选条件共查询到 {{total}} 条结果：</div>
       <!-- 表格区域 -->
       <el-table :data="articles" style="width: 100%">
         <el-table-column label="封面">
@@ -75,7 +75,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
-        <el-table-column label="操作" width="120px"> 
+        <el-table-column label="操作" width="120px">
           <template>
             <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
             <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
@@ -83,7 +83,18 @@
         </el-table-column>
       </el-table>
       <!-- 分页区域 -->
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      <!-- total 指定总条数 -->
+      <!-- page-size 设置每一页显示多少条，默认是10条 -->
+      <!-- current-page 指定当前是第几页 -->
+      <el-pagination
+        style="margin-top:20px"
+        background
+        layout="prev, pager, next"
+        :current-page="filterData.page"
+        :page-size="filterData.per_page"
+        :total="total"
+        @current-change="pager"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
@@ -122,7 +133,8 @@ export default {
       // 日期范围数据 [起始日期,结束日期]
       // 当选择完日期范围后，可以根据这个范围数据给 begin_pubdate和end_pubdate 赋值。
       dateArr: [],
-      articles: []
+      articles: [],
+      total: 0
     };
   },
   created() {
@@ -147,6 +159,15 @@ export default {
       const res = await this.$http.get("articles", { params: this.filterData });
       // console.log(res);
       this.articles = res.data.data.results;
+      // 获取文章的总条数
+      this.total = res.data.data.total_count;
+    },
+    // 点击分页按钮时执行的函数
+    pager(newPage) {
+      // 修改参数
+      // console.log(newPage);  // 结果:当前点击的页数的页码
+      this.filterData.page = newPage;
+      this.getArticles();
     }
   }
 };
