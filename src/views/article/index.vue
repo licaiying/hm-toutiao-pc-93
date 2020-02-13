@@ -83,8 +83,14 @@
         </el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column label="操作" width="120px">
-          <template>
-            <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
+          <template slot-scope="scope">
+            <el-button
+              plain
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              @click="toEditArticle(scope.row.id)"
+            ></el-button>
             <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
           </template>
         </el-table-column>
@@ -202,6 +208,11 @@ export default {
       if (this.filterData.channel_id == "") {
         this.filterData.channel_id = null;
       }
+    },
+    // 点击‘编辑’文章时执行的函数
+    toEditArticle(id) {
+      // 跳转到编辑文章的页面
+      this.$router.push(`/publish?id=${id}`);
     }
   }
 };
