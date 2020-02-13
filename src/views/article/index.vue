@@ -91,7 +91,13 @@
               circle
               @click="toEditArticle(scope.row.id)"
             ></el-button>
-            <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
+            <el-button
+              plain
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="toDelArticle(scope.row.id)"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -213,6 +219,29 @@ export default {
     toEditArticle(id) {
       // 跳转到编辑文章的页面
       this.$router.push(`/publish?id=${id}`);
+    },
+    // 点击‘删除’文章时执行的函数
+    toDelArticle(id) {
+      // 确认框(组件提供的方法)
+      this.$confirm("是否确定删除该文章?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          try {
+            // 发送删除文章的请求
+            await this.$http.delete(`articles/${id}`);
+            // 删除成功的提示信息
+            this.$message.success("删除成功");
+            // 重新渲染页面
+            this.getArticles();
+          } catch (e) {
+            // 删除失败的提示信息
+            this.$message.error("删除失败");
+          }
+        })
+        .catch(() => {});
     }
   }
 };
