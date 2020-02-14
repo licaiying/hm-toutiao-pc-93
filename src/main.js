@@ -15,6 +15,11 @@ import axios from '@/api'
 import Plugin from '@/plugin'
 Vue.use(Plugin)
 
+// 导入对话框的样式
+// 自己的样式，注意写在饿了么样式下方，才能覆盖样式
+// 引入之后，作用与每个组件，全局样式
+import '@/styles/index.less'
+
 // 挂载 $http 对象就是axios
 Vue.prototype.$http = axios
 
