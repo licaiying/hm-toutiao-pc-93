@@ -5,6 +5,7 @@ import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 import Article from '@/views/article'
 import Image from '@/views/image'
+import Publish from '@/views/publish'
 
 // 导入Login
 import Login from '@/views/login'
@@ -23,7 +24,8 @@ const router = new VueRouter({
             children: [
                 { path: '/', component: Welcome },
                 { path: '/article', component: Article },
-                { path: '/image', component: Image }
+                { path: '/image', component: Image },
+                { path: '/publish', component: Publish }
             ]
         },
         // 通配规则(以上所有的规则不符合的时候，走下面这个规则)
