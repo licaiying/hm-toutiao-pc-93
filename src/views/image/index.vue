@@ -28,7 +28,14 @@
         </div>
       </div>
       <!-- 分页区域 -->
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="reqParams.per_page"
+        :current-page="reqParams.page"
+        @current-change="changePage"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
@@ -45,7 +52,9 @@ export default {
         per_page: 10
       },
       // 图片数据
-      images: []
+      images: [],
+      // 数据的总条数
+      total: 0
     };
   },
   created() {
@@ -58,6 +67,13 @@ export default {
         params: this.reqParams
       });
       this.images = res.data.data.results;
+      this.total = res.data.data.total_count;
+    },
+    // 切换分页
+    changePage(newPage) {
+      // console.log(newPage);
+      this.reqParams.page = newPage;
+      this.getImages();
     }
   }
 };
