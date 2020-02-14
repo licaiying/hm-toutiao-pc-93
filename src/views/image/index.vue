@@ -15,7 +15,7 @@
           <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
         <!-- 右侧按钮 -->
-        <el-button type="success" style="float:right;" size="small">添加素材</el-button>
+        <el-button type="success" style="float:right;" size="small" @click="openDialog()">添加素材</el-button>
       </div>
       <!-- 图片列表区域 -->
       <div class="img-list">
@@ -41,6 +41,10 @@
         @current-change="changePage"
       ></el-pagination>
     </el-card>
+    <!-- 对话框的结构 -->
+    <el-dialog title="添加素材" :visible.sync="dialogVisible" width="300px">
+      <span>上传组件</span>
+    </el-dialog>
   </div>
 </template>
 
@@ -58,7 +62,9 @@ export default {
       // 图片数据
       images: [],
       // 数据的总条数
-      total: 0
+      total: 0,
+      // 控制对话框的显示与隐藏
+      dialogVisible: false
     };
   },
   created() {
@@ -123,6 +129,10 @@ export default {
           }
         })
         .catch(() => {});
+    },
+    // 当点击“添加素材”时，打开对话框
+    openDialog() {
+      this.dialogVisible = true;
     }
   }
 };
