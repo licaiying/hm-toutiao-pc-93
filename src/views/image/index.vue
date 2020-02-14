@@ -19,10 +19,10 @@
       </div>
       <!-- 图片列表区域 -->
       <div class="img-list">
-        <div class="img-item" v-for="item in 10" :key="item">
-          <img src="../../assets/avatar.jpg" alt />
+        <div class="img-item" v-for="item in images" :key="item.id">
+          <img :src="item.url" alt />
           <div class="icon">
-            <span class="el-icon-star-off"></span>
+            <span class="el-icon-star-off" :class="{red:item.is_collected}"></span>
             <span class="el-icon-delete"></span>
           </div>
         </div>
@@ -38,12 +38,27 @@ export default {
   name: "app-image",
   data() {
     return {
+      // 查询条件
       reqParams: {
         collect: false,
         page: 1,
         per_page: 10
-      }
+      },
+      // 图片数据
+      images: []
     };
+  },
+  created() {
+    this.getImages();
+  },
+  methods: {
+    async getImages() {
+      // 发请求，获取图片信息
+      const res = await this.$http.get("user/images", {
+        params: this.reqParams
+      });
+      this.images = res.data.data.results;
+    }
   }
 };
 </script>
