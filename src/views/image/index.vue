@@ -22,7 +22,11 @@
         <div class="img-item" v-for="item in images" :key="item.id">
           <img :src="item.url" alt />
           <div class="icon" v-if="!reqParams.collect">
-            <span class="el-icon-star-off" :class="{red:item.is_collected}"></span>
+            <span
+              class="el-icon-star-off"
+              :class="{red:item.is_collected}"
+              @click="toggleStatus(item)"
+            ></span>
             <span class="el-icon-delete"></span>
           </div>
         </div>
@@ -79,6 +83,23 @@ export default {
     changeCollect() {
       this.reqParams.page = 1;
       this.getImages();
+    },
+    // 添加收藏与取消收藏
+    async toggleStatus(item) {
+      // 发请求
+      try {
+        const res = await this.$http.put(`user/images/${item.id}`, {
+          collect: !item.is_collected
+        });
+        // res.data.data.collect 就是当前素材状态
+        this.$message.success(
+          res.data.data.collect ? "添加收藏成功" : "添加收藏失败"
+        );
+        // item 就是素材数据  is_collected 显示收藏图标的 颜色
+        item.is_collected = res.data.data.collect;
+      } catch (e) {
+        this.$message.error("操作失败");
+      }
     }
   }
 };
