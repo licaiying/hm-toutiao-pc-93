@@ -27,7 +27,7 @@
               :class="{red:item.is_collected}"
               @click="toggleStatus(item)"
             ></span>
-            <span class="el-icon-delete"></span>
+            <span class="el-icon-delete" @click="delImage(item.id)"></span>
           </div>
         </div>
       </div>
@@ -100,6 +100,29 @@ export default {
       } catch (e) {
         this.$message.error("操作失败");
       }
+    },
+    // 删除图片
+    delImage(id) {
+      // 确认框(组件提供的方法)
+      this.$confirm("是否确定删除该图片素材?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          try {
+            // 发送删除图片的请求
+            await this.$http.delete(`user/images/${id}`);
+            // 删除成功的提示信息
+            this.$message.success("删除成功");
+            // 重新渲染页面
+            this.getImages();
+          } catch (e) {
+            // 删除失败的提示信息
+            this.$message.error("删除失败");
+          }
+        })
+        .catch(() => {});
     }
   }
 };
