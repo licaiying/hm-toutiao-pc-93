@@ -25,6 +25,9 @@
           <!-- 对话框 -->
           <div>
             <!-- 组件位置 -->
+            <my-image></my-image>
+            <my-image></my-image>
+            <my-image></my-image>
           </div>
         </el-form-item>
         <el-form-item label="频道：">
