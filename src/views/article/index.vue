@@ -20,20 +20,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select
-            @change="changeChannel"
-            clearable
-            v-model="filterData.channel_id"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-            <!-- label 选项文字,  value 选项的值, 当你选择某个选项后，该选项的值提供v-model -->
-          </el-select>
+          <!-- 放自己封装的组件 -->
+          <!-- <my-channel :value="filterData.channel_id" @input="filterData.channel_id=$event"></my-channel> -->
+          <!-- 以上代码可简写为 使用v-mode 实现的双向绑定数据 -->
+          <my-channel v-model="filterData.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -148,7 +138,7 @@ export default {
         per_page: 20
       },
       // 频道下拉选项数据
-      channelOptions: [],
+      // channelOptions: [],
       // 日期范围数据 [起始日期,结束日期]
       // 当选择完日期范围后，可以根据这个范围数据给 begin_pubdate和end_pubdate 赋值。
       dateArr: [],
@@ -157,19 +147,19 @@ export default {
     };
   },
   created() {
-    this.getChannelOptions();
+    // this.getChannelOptions();
     this.getArticles();
   },
   methods: {
     // 获取频道数据
-    async getChannelOptions() {
-      // 发请求,获取频道数据
-      const res = await this.$http.get("channels");
-      // res = {data:{message:'',data:{channels:[// 频道数组 ]}}}
-      // this.channelOptions = [{id,name}]  数据格式
-      // console.log(res);
-      this.channelOptions = res.data.data.channels;
-    },
+    // async getChannelOptions() {
+    //   // 发请求,获取频道数据
+    //   const res = await this.$http.get("channels");
+    //   // res = {data:{message:'',data:{channels:[// 频道数组 ]}}}
+    //   // this.channelOptions = [{id,name}]  数据格式
+    //   // console.log(res);
+    //   this.channelOptions = res.data.data.channels;
+    // },
     // 获取文章数据
     async getArticles() {
       // 发请求,获取文章数据
@@ -210,11 +200,11 @@ export default {
       }
     },
     // 频道改变后执行的函数
-    changeChannel() {
-      if (this.filterData.channel_id == "") {
-        this.filterData.channel_id = null;
-      }
-    },
+    // changeChannel() {
+    //   if (this.filterData.channel_id == "") {
+    //     this.filterData.channel_id = null;
+    //   }
+    // },
     // 点击‘编辑’文章时执行的函数
     toEditArticle(id) {
       // 跳转到编辑文章的页面
