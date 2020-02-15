@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item label="内容：">
           <!-- 富文本 -->
-          <quill-editor v-model="articleForm.content"></quill-editor>
+          <quill-editor v-model="articleForm.content" :options="editorOption"></quill-editor>
         </el-form-item>
         <el-form-item label="封面：">封面组件</el-form-item>
         <el-form-item label="频道：">
@@ -45,6 +45,22 @@ export default {
         title: null,
         channel_id: null,
         content: null
+      },
+      // 富文本的配置对象
+      editorOption: {
+        // 占位文字清空
+        placeholder: "",
+        // 模块配置
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code"],
+            [{ header: 1 }, { header: 2 }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            ["image"]
+          ]
+        }
       }
     };
   },
