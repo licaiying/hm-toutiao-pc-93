@@ -37,7 +37,20 @@
             ></el-pagination>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="上传图片" name="upload">2</el-tab-pane>
+        <el-tab-pane label="上传图片" name="upload">
+          <!-- 上传组件 -->
+          <el-upload
+            class="avatar-uploader"
+            action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+            :show-file-list="false"
+            :on-success="handleSuccess"
+            :headers="uploadHeaders"
+            name="image"
+          >
+            <img v-if="uploadImageUrl" :src="uploadImageUrl" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-tab-pane>
       </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -48,6 +61,9 @@
 </template>
 
 <script type="text/javascript">
+// 导入封装的获取token的模块
+import auth from "@/utils/auth";
+
 export default {
   name: "my-image",
   data() {
@@ -67,7 +83,13 @@ export default {
       // 加载中
       loading: false,
       // 当前选中的素材图片地址
-      selectedImageUrl: null
+      selectedImageUrl: null,
+      // 设置上传图片时的请求头
+      uploadHeaders: {
+        Authorization: `Bearer ${auth.getUser().token}`
+      },
+      // 上传的图片
+      uploadImageUrl: null
     };
   },
   created() {
@@ -110,6 +132,12 @@ export default {
     // 选中的图片的函数
     selectedImage(url) {
       this.selectedImageUrl = url;
+    },
+    // 上传成功的函数
+    handleSuccess(res) {
+      this.$message.success("上传成功");
+      // 预览图片
+      this.uploadImageUrl = res.data.url;
     }
   }
 };
