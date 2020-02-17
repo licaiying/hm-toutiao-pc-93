@@ -64,6 +64,9 @@
 // 导入封装的获取token的模块
 import auth from "@/utils/auth";
 
+// 主动导入，打包这张图片到服务器，defaultImage就是图片数据
+import defaultImage from "@/assets/default.png";
+
 export default {
   name: "my-image",
   data() {
@@ -90,8 +93,10 @@ export default {
       },
       // 上传的图片
       uploadImageUrl: null,
+
       // “图片按钮”的图片地址
-      imageBtnUrl: "../assets/default.png"
+      // imageBtnUrl: '../assets/default.png'
+      imageBtnUrl: defaultImage
     };
   },
   created() {
