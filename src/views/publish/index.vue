@@ -25,7 +25,7 @@
           <!-- 对话框 -->
           <div>
             <!-- 组件位置 -->
-            <my-image></my-image>
+            <my-image v-model="articleForm.cover.images[0]"></my-image>
             <my-image></my-image>
             <my-image></my-image>
           </div>

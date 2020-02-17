@@ -2,7 +2,7 @@
   <div class="my-image">
     <!-- 图片按钮 -->
     <div class="img-btn" @click="openDialog()">
-      <img :src="imageBtnUrl" alt />
+      <img :src="value||imageBtnUrl" alt />
     </div>
     <!-- 对话框 -->
     <el-dialog :visible.sync="dialogVisible" width="750px">
@@ -69,6 +69,7 @@ import defaultImage from "@/assets/default.png";
 
 export default {
   name: "my-image",
+  props: ["value"],
   data() {
     return {
       // 获取素材列表参数对象
@@ -160,14 +161,18 @@ export default {
         if (!this.selectedImageUrl)
           return this.$message.warning("请选择一张图片");
         // 把选中的图片放到图片按钮位置
-        this.imageBtnUrl = this.selectedImageUrl;
+        // this.imageBtnUrl = this.selectedImageUrl;
+        // 将选中的图片数据传递给父组件
+        this.$emit("input", this.selectedImageUrl);
       } else {
         //激活的是“上传图片”
         // 检验是否上传了图片
         if (!this.uploadImageUrl)
           return this.$message.warning("请上传一张图片");
         // 把上传的图片放到图片按钮位置
-        this.imageBtnUrl = this.uploadImageUrl;
+        // this.imageBtnUrl = this.uploadImageUrl;
+        // 将上传的图片数据传递给父组件
+        this.$emit("input", this.uploadImageUrl);
       }
       // 关闭对话框
       this.dialogVisible = false;
