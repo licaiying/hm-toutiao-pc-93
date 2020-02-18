@@ -38,8 +38,8 @@
           <my-channel v-model="articleForm.channel_id"></my-channel>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">发布文章</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button @click="submit(false)" type="primary">发布文章</el-button>
+          <el-button @click="submit(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -87,6 +87,21 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    // 添加文章 draft===false 发布文章  draft===true  存入草稿
+    async submit(draft) {
+      try {
+        // 请求  接口需要地址栏键值对传参(将draft的布尔值传递过去，根据draft的布尔值进行判断)
+        await this.$http.post(`articles?draft=${draft}`, this.articleForm);
+        // 提示信息
+        this.$message.success(draft ? "存入草稿成功" : "发布文章成功");
+        // 跳转
+        this.$router.push("/article");
+      } catch (e) {
+        this.$message.error("操作失败");
+      }
+    }
   },
   components: { quillEditor }
 };
