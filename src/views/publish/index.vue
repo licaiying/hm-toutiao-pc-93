@@ -3,7 +3,7 @@
     <el-card>
       <div slot="header">
         <!-- 使用自己封装的面包屑组件 -->
-        <my-bread>发布文章</my-bread>
+        <my-bread>{{$route.query.id?'修改':'发布'}}文章</my-bread>
       </div>
       <!-- 表单区域 -->
       <el-form label-width="120px">
@@ -37,7 +37,10 @@
           <!-- 使用自己封装的频道组件 -->
           <my-channel v-model="articleForm.channel_id"></my-channel>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="$route.query.id">
+          <el-button @click="updata()" type="success">修改文章</el-button>
+        </el-form-item>
+        <el-form-item v-else>
           <el-button @click="submit(false)" type="primary">发布文章</el-button>
           <el-button @click="submit(true)">存入草稿</el-button>
         </el-form-item>
@@ -88,6 +91,18 @@ export default {
       }
     };
   },
+  created() {
+    // 当是修改文章的时候，获取文章信息填充表单
+    if (this.$route.query.id) {
+      this.getArticles();
+    }
+  },
+  watch: {
+    // 监听地址栏id的变化
+    "$route.query.id": function() {
+      this.toggleFormInfo();
+    }
+  },
   methods: {
     // 添加文章 draft===false 发布文章  draft===true  存入草稿
     async submit(draft) {
@@ -100,6 +115,52 @@ export default {
         this.$router.push("/article");
       } catch (e) {
         this.$message.error("操作失败");
+      }
+    },
+    // 获取文章信息
+    async getArticles() {
+      // 发请求，将对应文章的id传递过去
+      const res = await this.$http.get(`articles/${this.$route.query.id}`);
+      // console.log(res);
+      this.articleForm = res.data.data;
+    },
+    // 切换表单内容
+    toggleFormInfo() {
+      if (this.$route.query.id) {
+        // 说明：是修改文章，需要填充表单
+        this.getArticles();
+      } else {
+        // 说明：是发布文章，不需要填充表单
+        // 不能直接使用：this.articleForm = {}，因为这样模板中 articleForm.cover.type 会报错
+        // 必须保证模板依赖的字段都有对应的数据，保证模板编译不错误
+        this.articleForm = {
+          title: null,
+          channel_id: null,
+          content: null,
+          cover: {
+            type: 1,
+            images: []
+          }
+        };
+      }
+    },
+    // 修改文章的函数
+    async updata() {
+      try {
+        // 修改只有发布，没有草稿
+        // 路径传参 需要ID
+        // 键值对传参  需要 draft
+        // 请求体传参  articleForm
+        await this.$http.put(
+          `articles/${this.articleForm.id}?draft=false`,
+          this.articleForm
+        );
+        // 提示信息
+        this.$message.success("修改成功");
+        // 跳转到“文章管理”页面
+        this.$router.push("/article");
+      } catch (e) {
+        this.$message.error("修改失败");
       }
     }
   },
