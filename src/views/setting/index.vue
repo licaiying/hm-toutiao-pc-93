@@ -21,7 +21,7 @@
               <el-input v-model="user.email"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">保存设置</el-button>
+              <el-button @click="saveSetting()" type="primary">保存设置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -43,6 +43,9 @@
 </template>
 
 <script type="text/javascript">
+import auth from "@/utils/auth";
+import eventBus from "@/eventBus";
+
 export default {
   name: "app-setting",
   data() {
@@ -67,6 +70,27 @@ export default {
     async getUserInfo() {
       const res = await this.$http.get("user/profile");
       this.user = res.data.data;
+    },
+    // 修改用户信息的函数
+    async saveSetting() {
+      // 发请求
+      try {
+        // 取出(解构)后台需要的三个数据
+        const { name, intro, email } = this.user;
+        await this.$http.patch("user/profile", { name, intro, email });
+        this.$message.success("修改用户信息成功");
+        // 同步本地存储
+        // 1. 获取本地用户信息
+        // 2. 修改拿到的用户信息用户名称
+        // 3. 在把修改好数据存储起来
+        const user = auth.getUser();
+        user.name = name;
+        auth.setUser(user);
+        // 同步home组件(在seting组件传用户名称给home组件)
+        eventBus.$emit("updateUserName", name);
+      } catch (e) {
+        this.$message.error("修改用户信息失败");
+      }
     }
   }
 };

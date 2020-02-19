@@ -78,6 +78,7 @@
 <script type="text/javascript">
 // 导入工具auth
 import auth from "@/utils/auth";
+import eventBus from "@/eventBus";
 
 export default {
   name: "app-home",
@@ -112,6 +113,10 @@ export default {
     const user = auth.getUser();
     this.name = user.name;
     this.photo = user.photo;
+    // 绑定eventBus事件,接收，从setting组件中传递过来的修改后的name值
+    eventBus.$on("updateUserName", name => {
+      this.name = name;
+    });
   }
 };
 </script>
