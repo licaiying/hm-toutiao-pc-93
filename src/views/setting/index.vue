@@ -9,8 +9,8 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="120px">
-            <el-form-item label="编号：">123</el-form-item>
-            <el-form-item label="手机号：">66666666</el-form-item>
+            <el-form-item label="编号：">{{user.id}}</el-form-item>
+            <el-form-item label="手机号：">{{user.mobile}}</el-form-item>
             <el-form-item label="媒体名称：">
               <el-input v-model="user.name"></el-input>
             </el-form-item>
@@ -32,7 +32,7 @@
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="user.photo" :src="user.photo" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
           <p style="text-align:center;font-size:14px;">修改头像</p>
@@ -51,11 +51,23 @@ export default {
       user: {
         name: "",
         intro: "",
-        email: ""
-      },
+        email: "",
+        photo: ""
+      }
       // 用户头像
-      imageUrl: ""
+      //   imageUrl: ""
     };
+  },
+  created() {
+    // 获取用户信息
+    this.getUserInfo();
+  },
+  methods: {
+    // 获取用户信息的函数
+    async getUserInfo() {
+      const res = await this.$http.get("user/profile");
+      this.user = res.data.data;
+    }
   }
 };
 </script>
