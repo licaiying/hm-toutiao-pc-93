@@ -8,6 +8,7 @@ import Image from '@/views/image'
 import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 import Fans from '@/views/fans'
+import Setting from '@/views/setting'
 
 // 导入Login
 import Login from '@/views/login'
@@ -29,7 +30,8 @@ const router = new VueRouter({
                 { path: '/image', component: Image },
                 { path: '/publish', component: Publish },
                 { path: '/comment', component: Comment },
-                { path: '/fans', component: Fans }
+                { path: '/fans', component: Fans },
+                { path: '/setting', component: Setting }
             ]
         },
         // 通配规则(以上所有的规则不符合的时候，走下面这个规则)
