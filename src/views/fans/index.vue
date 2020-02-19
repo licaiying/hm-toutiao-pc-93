@@ -10,17 +10,21 @@
         <el-tab-pane label="粉丝列表" name="list">
           <!-- 列表 -->
           <div class="fans-list">
-            <div class="fans-item" v-for="i in 24" :key="i">
-              <el-avatar
-                :size="80"
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              ></el-avatar>
-              <p>用户名称</p>
+            <div class="fans-item" v-for="item in fansList" :key="item.id.toString()">
+              <el-avatar :size="80" :src="item.photo"></el-avatar>
+              <p>{{item.name}}</p>
               <el-button type="primary" plain size="small">+关注</el-button>
             </div>
           </div>
           <!-- 分页 -->
-          <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="reqParams.per_page"
+            :current-page="reqParams.page"
+            @current-change="changePage"
+          ></el-pagination>
         </el-tab-pane>
         <el-tab-pane label="粉丝画像" name="pictrue">2</el-tab-pane>
       </el-tabs>
@@ -33,8 +37,35 @@ export default {
   name: "app-fans",
   data() {
     return {
-      activeName: "list"
+      activeName: "list",
+      // 粉丝列表
+      fansList: [],
+      // 总条数
+      total: 0,
+      // 参数信息
+      reqParams: {
+        page: 1,
+        per_page: 24
+      }
     };
+  },
+  created() {
+    // 调用函数，渲染页面
+    this.getFansList();
+  },
+  methods: {
+    async getFansList() {
+      // 发请求，获取粉丝列表信息
+      const res = await this.$http.get("followers", { params: this.reqParams });
+      // 列表数据
+      this.fansList = res.data.data.results;
+      this.total = res.data.data.total_count;
+    },
+    // 分页函数
+    changePage(newPage) {
+      this.reqParams.page = newPage;
+      this.getFansList();
+    }
   }
 };
 </script>
