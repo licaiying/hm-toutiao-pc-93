@@ -29,8 +29,9 @@
         <el-col :span="12">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action
             :show-file-list="false"
+            :http-request="uploadImage"
           >
             <img v-if="user.photo" :src="user.photo" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -91,6 +92,27 @@ export default {
       } catch (e) {
         this.$message.error("修改用户信息失败");
       }
+    },
+    // 修改用户头像的函数
+    async uploadImage({ file }) {
+      // 选择图片之后，触发这个函数，把包含图片信息的对象fileInfo传入进来
+      // 自己上传  使用axios进行  所以不需要额外的去配置组件了。
+      // 选择图片后获取file对象，封装成formdata数据对象，使用axios进行提交。
+      // console.log(fileInfo.file) 就是图片信息
+      const fd = new FormData();
+      fd.append("photo", file);
+      // 发请求，修改用户的头像信息
+      const res = await this.$http.patch("user/photo", fd);
+      // 预览图片
+      this.user.photo = res.data.data.photo;
+      // 本地同步更新用户的头像信息
+      const user = auth.getUser();
+      user.photo = res.data.data.photo;
+      auth.setUser(user);
+      // home组件同步更新用户的头像信息
+      eventBus.$emit("updateUserPhoto", res.data.data.photo);
+      // 提示信息
+      this.$message.success("修改用户头像成功");
     }
   }
 };

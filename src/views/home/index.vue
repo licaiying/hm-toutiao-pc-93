@@ -113,9 +113,13 @@ export default {
     const user = auth.getUser();
     this.name = user.name;
     this.photo = user.photo;
-    // 绑定eventBus事件,接收，从setting组件中传递过来的修改后的name值
+    // 绑定eventBus事件,接收，从setting组件中传递过来的修改后的name(用户名称)值
     eventBus.$on("updateUserName", name => {
       this.name = name;
+    });
+    // 绑定eventBus事件,接收，从setting组件中传递过来的修改后的photo(用户头像)值
+    eventBus.$on("updateUserPhoto", photo => {
+      this.photo = photo;
     });
   }
 };
